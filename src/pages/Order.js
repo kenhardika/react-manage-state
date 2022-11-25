@@ -54,13 +54,11 @@ export default function Order() {
 
     const onChangeStoreCb = (checked, index) => {
       setData((cur) => {
-        console.log(checked);
         const newData = [...cur];
         const items = newData[index].items.map((item) => {
           item.checked = checked;
           return { ...item };
         });
-        // console.log(items);
         newData[index] = { ...newData[index],
           items: [...items],
         };
@@ -80,7 +78,7 @@ export default function Order() {
         return newData;
       });
     }
-
+    console.log(data);
     return (
         <div className='h-full bg-scroll bg-gray-300'>
             <div className='w-full h-screen flex flex-col justify-center items-center'>

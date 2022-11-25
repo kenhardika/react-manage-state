@@ -11,7 +11,7 @@ export default function Store({ data, onChangeProduct, onChangeStore }) {
             <div className='flex flex-row w-[700px] items-center'>
                 <Checkbox 
                     checked = {checkAllCb()} 
-                    onChange = {(e)=>onChangeStore({checked: e.target.checked})}
+                    onChange = {(e)=>onChangeStore(e.target.checked)}
                 />
                 <img src={data.logo} className="rounded-full" width="50px" alt="store-logo" />
                 <div className='flex flex-col'>
