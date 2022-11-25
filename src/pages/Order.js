@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Product from '../components/Product';
+import React, { useCallback, useState } from 'react';
 import Store from '../components/Store';
 
 export default function Order() {
@@ -51,27 +50,57 @@ export default function Order() {
         ],
       },
     ];
-
     const [data, setData] = useState(mockData);
-    console.log(data)
+
+    const onChangeStoreCb = (checked, index) => {
+      setData((cur) => {
+        console.log(checked);
+        const newData = [...cur];
+        const items = newData[index].items.map((item) => {
+          item.checked = checked;
+          return { ...item };
+        });
+        // console.log(items);
+        newData[index] = { ...newData[index],
+          items: [...items],
+        };
+        return newData;
+      });
+    }
+
+    const onChangeProductCb = (indexStore, indexProduct, data) => {
+      setData((cur) => {
+        const newData = [...cur];
+        const newItems = { ...newData[indexStore] };
+        newItems.items[indexProduct] = {
+          ...newData[indexStore].items[indexProduct], ...data,
+        };
+  
+        newData[indexStore] = newItems;
+        return newData;
+      });
+    }
+
     return (
         <div className='h-full bg-scroll bg-gray-300'>
             <div className='w-full h-screen flex flex-col justify-center items-center'>
-                <div className=''>
+                <div className='w-full flex flex-col justify-center items-center'>
                     select all section
-                </div>
                 {
                     data?.map((item, index) => 
-                            <Store key={index} storeName={item.store}>
-                                {
-                                    item.items.map((detailItem, index) => 
-                                            <Product key={index} 
-                                                productName={detailItem.name}/>
-                                    )
-                                }
+                            <Store 
+                              data={item} 
+                              key={index} 
+                              onChangeStore={(checked) => 
+                                onChangeStoreCb(checked, index)}
+                              onChangeProduct={(indexProduct, data) => {
+                                onChangeProductCb(index, indexProduct, data);
+                              }}
+                              >
                             </Store>
                     )
                 }
+                </div>
             </div>                
         </div>
     );
