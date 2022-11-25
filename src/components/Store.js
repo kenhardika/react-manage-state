@@ -3,14 +3,19 @@ import Checkbox from './Checkbox';
 import Product from './Product';
 
 export default function Store({ data, onChangeProduct, onChangeStore }) {
-    const checkAllCb = () => {
-        
+  
+    const isCheckedAll = () => {
+        for (let i = 0; i < data.items.length; i++) {
+            const item = data.items[i];
+            if (!item.checked) return false;
+          }
+          return true;
     }
     return (
         <div className='w-full h-auto bg-slate-300 flex flex-col items-center justify-center gap-2' >
             <div className='flex flex-row w-[700px] items-center'>
                 <Checkbox 
-                    checked = {checkAllCb()} 
+                    checked = {isCheckedAll()} 
                     onChange = {(e)=>onChangeStore(e.target.checked)}
                 />
                 <img src={data.logo} className="rounded-full" width="50px" alt="store-logo" />
@@ -30,7 +35,6 @@ export default function Store({ data, onChangeProduct, onChangeStore }) {
                     )
                 }
             </div>
-
         </div>
     );
 }

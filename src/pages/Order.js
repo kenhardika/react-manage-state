@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
+import Checkbox from '../components/Checkbox';
 import Store from '../components/Store';
 
 export default function Order() {
@@ -52,6 +53,36 @@ export default function Order() {
     ];
     const [data, setData] = useState(mockData);
 
+    const isChecked = ()=> {
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        for (let j = 0; j < item.items.length; j++) {
+          const product = item.items[j];
+          if (!product.checked) return false;
+        }
+      }
+      return true;
+    }
+
+    const onChangeAll = (checked) => {
+      setData((c) => {
+        const newData = [...c];
+        for (let i = 0; i < newData.length; i++) {
+          const item = newData[i];
+          for (let j = 0; j < item.items.length; j++) {
+            item.items[j] = {
+              ...item.items[j],
+              checked,
+            };
+          }
+          newData[i] = {
+            ...item,
+          };
+        }
+        return newData;
+      })
+    }
+
     const onChangeStoreCb = (checked, index) => {
       setData((cur) => {
         const newData = [...cur];
@@ -73,7 +104,6 @@ export default function Order() {
         newItems.items[indexProduct] = {
           ...newData[indexStore].items[indexProduct], ...data,
         };
-  
         newData[indexStore] = newItems;
         return newData;
       });
@@ -83,7 +113,13 @@ export default function Order() {
         <div className='h-full bg-scroll bg-gray-300'>
             <div className='w-full h-screen flex flex-col justify-center items-center'>
                 <div className='w-full flex flex-col justify-center items-center'>
-                    select all section
+                  <div className='flex-row flex w-[700px] items-center justify-start'>
+                    <Checkbox 
+                    onChange={(e)=>onChangeAll(e.target.checked)}
+                    checked={isChecked()}
+                    />
+                      select all section
+                  </div>
                 {
                     data?.map((item, index) => 
                             <Store 

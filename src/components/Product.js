@@ -13,7 +13,7 @@ export default function Product({data, onChange}) {
                 {data.name}
             </div>
             <div>
-                Product Details
+                {data.price}
             </div>
         </div>
     );
