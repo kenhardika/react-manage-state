@@ -1,12 +1,12 @@
 import React from 'react';
 import Checkbox from './Checkbox';
 
-export default function Product() {
+export default function Product({productName}) {
     return (
-        <div className='flex flex-row gap-2 justify-center'>
+        <div className='flex flex-row gap-2 justify-start items-center'>
             <Checkbox/>
             <div>
-                Product Avatar
+                {productName}
             </div>
             <div>
                 Product Details
